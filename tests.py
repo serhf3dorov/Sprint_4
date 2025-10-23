@@ -58,9 +58,11 @@ class TestBooksCollector:
 
     # get_books_with_specific_genre
     def test_get_books_with_specific_genre_for_books_from_books_genre_shows_two_books(self, collector):
-        collector.add_new_book('Солярис')
-        collector.set_book_genre('Солярис', 'Фантастика')
-        assert collector.get_books_with_specific_genre('Фантастика') == ['Солярис']
+        collector.add_new_book('Пяточок в угаре')
+        collector.add_new_book('Оно')
+        collector.set_book_genre('Пяточок в угаре', 'Ужасы')
+        collector.set_book_genre('Оно', 'Ужасы')
+        assert collector.get_books_with_specific_genre('Ужасы') == ['Пяточок в угаре', 'Оно']
 
     def test_get_books_with_specific_genre_book_genre_not_from_genre_list_shows_none(self, collector):
         collector.add_new_book('Солярис')
@@ -78,6 +80,8 @@ class TestBooksCollector:
     def test_get_books_for_children_shows_books_with_no_age_rating(self, collector):
         collector.add_new_book('Солярис')
         collector.set_book_genre('Солярис', 'Фантастика')
+        collector.add_new_book('Оно')
+        collector.set_book_genre('Оно', 'Ужасы')
         books_for_children = ['Солярис']
         assert collector.get_books_for_children() == books_for_children
 
@@ -85,7 +89,7 @@ class TestBooksCollector:
     def test_add_book_in_favorites_book_from_books_genre_book_added(self, collector):
         collector.add_new_book('Солярис')
         collector.add_book_in_favorites('Солярис')
-        assert collector.get_list_of_favorites_books() == ['Солярис']
+        assert 'Солярис' in collector.get_list_of_favorites_books() and len(collector.get_list_of_favorites_books()) == 1
 
     def test_add_book_in_favorites_book_not_from_books_genre_book_not_added(self, collector):
         collector.add_book_in_favorites('Капитан Немо')
@@ -109,5 +113,5 @@ class TestBooksCollector:
     def test_get_list_of_favorites_books_shows_list_of_favorite_books(self, collector):
         collector.add_new_book('Солярис')
         collector.add_book_in_favorites('Солярис')
-        favorites =['Солярис']
+        favorites = ['Солярис']
         assert collector.get_list_of_favorites_books() == favorites
