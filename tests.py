@@ -80,16 +80,18 @@ class TestBooksCollector:
     def test_get_books_for_children_shows_books_with_no_age_rating(self, collector):
         collector.add_new_book('Солярис')
         collector.set_book_genre('Солярис', 'Фантастика')
+        collector.add_new_book('Ревизор')
+        collector.set_book_genre('Ревизор', 'Комедии')
         collector.add_new_book('Оно')
         collector.set_book_genre('Оно', 'Ужасы')
-        books_for_children = ['Солярис']
+        books_for_children = ['Солярис', 'Ревизор']
         assert collector.get_books_for_children() == books_for_children
 
     # add_book_in_favorites
     def test_add_book_in_favorites_book_from_books_genre_book_added(self, collector):
         collector.add_new_book('Солярис')
         collector.add_book_in_favorites('Солярис')
-        assert 'Солярис' in collector.get_list_of_favorites_books() and len(collector.get_list_of_favorites_books()) == 1
+        assert collector.favorites == ['Солярис']
 
     def test_add_book_in_favorites_book_not_from_books_genre_book_not_added(self, collector):
         collector.add_book_in_favorites('Капитан Немо')
